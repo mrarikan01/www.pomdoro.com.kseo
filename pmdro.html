@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BörüPomodoro</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="./style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+<style type="text/css" id="dcoder_stylesheet">* {
+  box-sizing: border-box;
+  outline: none;
+  user-select: none;
+}
+
+body {
+  align-items: center;
+  background-image: linear-gradient(to top, #cd9cf2 0%, #f6f3ff 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  display: flex;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ffb3ce", endColorstr="#6effb5bd", GradientType=1);
+  flex-direction: column;
+  font-family: "Open Sans", sans-serif;
+  height: 100vh;
+  justify-content: center;
+  min-width: 184px;
+  overflow-x: hidden;
+  transition: background-color 0.2s;
+}
+
+#pomodoro {
+  margin-bottom: 43px;
+  max-width: 512px;
+  width: 100%;
+}
+#pomodoro #clock {
+  background: url(https://joeweaver.me/codepenassets/freecodecamp/challenges/build-a-pomodoro-clock/bg.png) no-repeat center center;
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -6.25vw;
+  padding: 40vw 0;
+}
+@media all and (min-width: 512px) {
+  #pomodoro #clock {
+    margin-bottom: -32px;
+    padding: 204px 0;
+  }
+}
+@media all and (max-width: 184px) {
+  #pomodoro #clock {
+    margin-bottom: -20px;
+    margin-bottom: -11.5px;
+    padding: 73px 0;
+  }
+}
+#pomodoro #clock #timer {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+#pomodoro #clock #timer #title {
+  color: #FF8B8A;
+  font-size: 28px;
+  line-height: 28px;
+  margin: 3px 0 1px;
+}
+@media all and (max-width: 512px) {
+  #pomodoro #clock #timer #title {
+    font-size: 5.5vw;
+    line-height: 5.5vw;
+  }
+}
+@media all and (max-width: 184px) {
+  #pomodoro #clock #timer #title {
+    font-size: 10px;
+    line-height: 10px;
+  }
+}
+#pomodoro #clock #timer #countdown {
+  color: #ff778d;
+  display: flex;
+  font-size: 43px;
+  font-weight: 600;
+  line-height: 43px;
+}
+@media all and (max-width: 512px) {
+  #pomodoro #clock #timer #countdown {
+    font-size: 8.4vw;
+    line-height: 8.4vw;
+  }
+}
+@media all and (max-width: 184px) {
+  #pomodoro #clock #timer #countdown {
+    font-size: 15.4px;
+    line-height: 15.4px;
+  }
+}
+#pomodoro #clock #timer #countdown #minutes::after {
+  content: ":";
+}
+#pomodoro #clock #timer #controls {
+  align-items: center;
+  display: flex;
+  color: #FF6292;
+  flex-direction: column;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 15px;
+  margin-top: 5px;
+  text-align: center;
+  text-transform: uppercase;
+}
+#pomodoro #clock #timer #controls .fas, #pomodoro #clock #timer #controls .svg-inline--fa {
+  position: relative;
+}
+#pomodoro #clock #timer #controls #start, #pomodoro #clock #timer #controls #pause, #pomodoro #clock #timer #controls #reset {
+  white-space: nowrap;
+}
+#pomodoro #clock #timer #controls #start .fa-play {
+  font-size: 77%;
+  top: -1px;
+}
+#pomodoro #clock #timer #controls #start:hover {
+  color: #ff4980;
+}
+#pomodoro #clock #timer #controls #pause .fa-pause {
+  font-size: 90%;
+  top: -1px;
+  transform: scaleX(0.84);
+}
+#pomodoro #clock #timer #controls #pause:hover {
+  color: #ff4980;
+}
+#pomodoro #clock #timer #controls #reset {
+  position: absolute;
+  margin-top: 17.56px;
+  transition: margin-top 0.43s, opacity 0.43s;
+}
+#pomodoro #clock #timer #controls #reset .fa-sync-alt {
+  font-size: 84%;
+}
+#pomodoro #clock #timer #controls #reset:hover {
+  color: #ff4980;
+}
+#pomodoro #clock #timer #controls.reset #pause {
+  display: none;
+}
+#pomodoro #clock #timer #controls.reset #reset {
+  margin-top: 0;
+  opacity: 0;
+  z-index: -1;
+}
+#pomodoro #clock #timer #controls.started #start {
+  display: none;
+}
+#pomodoro #clock #timer #controls.started #reset {
+  opacity: 0;
+}
+#pomodoro #clock #timer #controls.paused #pause {
+  display: none;
+}
+@media all and (max-width: 512px) {
+  #pomodoro #clock #timer #controls {
+    font-size: 5.5vw;
+    line-height: 5.5vw;
+  }
+  #pomodoro #clock #timer #controls #start, #pomodoro #clock #timer #controls #pause, #pomodoro #clock #timer #controls #reset {
+    font-size: 3vw;
+    line-height: 3vw;
+  }
+  #pomodoro #clock #timer #controls #reset {
+    margin-top: 3.43vw;
+  }
+}
+@media all and (max-width: 184px) {
+  #pomodoro #clock #timer #controls {
+    font-size: 10px;
+    line-height: 10px;
+  }
+  #pomodoro #clock #timer #controls #start, #pomodoro #clock #timer #controls #pause, #pomodoro #clock #timer #controls #reset {
+    font-size: 5.5px;
+    line-height: 5.5px;
+  }
+  #pomodoro #clock #timer #controls #reset {
+    margin-top: 6.31px;
+  }
+}
+#pomodoro #options {
+  color: #FF6292;
+  display: flex;
+  font-size: 28px;
+  font-weight: normal;
+  justify-content: center;
+  margin-bottom: 28px;
+  text-align: center;
+}
+#pomodoro #options .option-title {
+  color: #FF6F8A;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+  margin-bottom: -6px;
+  text-transform: uppercase;
+}
+#pomodoro #options .fa-angle-double-up {
+  color: #FF848A;
+  cursor: pointer;
+}
+#pomodoro #options .fa-angle-double-down {
+  color: #FF5792;
+  cursor: pointer;
+}
+#pomodoro #options #session, #pomodoro #options #break {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+#pomodoro #options input[type=number] {
+  background-image: linear-gradient(to top, #cd9cf2 0%, #f6f3ff 100%);
+  border: 0;
+  border-bottom: calc(3px + .28vw) solid #FF6292;
+  border-radius: 10px;
+  color: #FF6292;
+  font: bold calc(21px + 1.43vw) "Open Sans", sans-serif;
+  margin: calc(5px + .43vw) calc(3px + .43vw);
+  padding: calc(3px + .43vw) calc(5px + .43vw);
+  text-align: center;
+}
+#pomodoro #options input[type=number]::-webkit-inner-spin-button, #pomodoro #options input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+@media all and (min-width: 512px) {
+  #pomodoro #options input[type=number] {
+    border-bottom: 4.43px solid #FF6292;
+    font: bold 28.43px "Open Sans", sans-serif;
+    margin: 7.2px 5.2px;
+    padding: 5.2px 7.2px;
+  }
+}
+@media all and (max-width: 184px) {
+  #pomodoro #options input[type=number] {
+    border-bottom: 3.5px solid #FF6292;
+    font: bold 23.6px "Open Sans", sans-serif;
+    margin: 5.7px 3.7px;
+    padding: 3.7px 5.7px;
+  }
+}
+
+audio {
+  display: none;
+}
+
+#audio-selector {
+  display: flex;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+}
+#audio-selector .theme {
+  background-image: linear-gradient(to top, #cd9cf2 0%, #f6f3ff 100%);
+  color: #e46372;
+  cursor: pointer;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#47ff637f", endColorstr="#00ff6292", GradientType=0);
+  flex: 1 1 25%;
+  font: 600 calc(9px + 1vw) "Open Sans", sans-serif;
+  margin: 0 2px 0 0;
+  padding: 2vw 1vw 5vw;
+  text-align: center;
+  transition: all 0.43s;
+  white-space: nowrap;
+}
+#audio-selector .theme:last-child {
+  margin-right: 0;
+}
+#audio-selector .theme:hover, #audio-selector .theme.selected {
+  background-image: linear-gradient(to top, #cd9cf2 0%, #f6f3ff 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#6eff637f", endColorstr="#00ff6292", GradientType=0);
+}
+@media all and (min-width: 512px) {
+  #audio-selector .theme {
+    font-size: 15.33px;
+    padding: 9px 5px 25px;
+  }
+}
+@media all and (max-width: 300px) {
+  #audio-selector {
+    flex-wrap: wrap;
+  }
+  #audio-selector .theme {
+    flex: 1 0 100%;
+    font-size: 14px;
+    padding: 7px;
+  }
+}</style></head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- --------------------------------------------- -->
+<!-- Image inspired by Tide, a pomodoro app I use. -->
+<!-- Check it out at: https://tide.moreless.io/en/ -->
+<!-- --------------------------------------------- -->
+
+<div id="pomodoro">
+  <div id="clock">
+    <div id="timer">
+      <div id="title">Belirle</div>
+      <div id="countdown">
+        <span id="minutes">10</span>
+        <span id="seconds">00</span>
+      </div>
+      <div id="controls" class="reset">
+        <div id="start"><i class="fas fa-play"></i> Başlat</div>
+        <div id="pause"><i class="fas fa-pause"></i> Durdur</div>
+        <div id="reset"><i class="fas fa-sync-alt"></i> Sıfırla</div>
+      </div>
+    </div>
+  </div>
+  <div id="options">
+    <div id="session">
+      <i id="incrSession" class="fas fa-angle-double-up"></i>
+      <span class="option-title">Zaman</span>
+      <input id="sessionInput" type="number" value="30" max="60" min="3">
+      <i id="decrSession" class="fas fa-angle-double-down"></i>
+    </div>
+    <div id="break">
+      <i id="incrBreak" class="fas fa-angle-double-up"></i>
+      <span class="option-title">Ek Dakika</span>
+      <input id="breakInput" type="number" value="5" max="10" min="1">
+      <i id="decrBreak" class="fas fa-angle-double-down"></i>
+    </div>
+  </div>
+</div>
+<div id="audio-selector">
+  <div id="forest" class="theme"><!--🌲 -->Orman</div>
+  <div id="ocean" class="theme"><!--🌊 -->Deniz</div>
+  <div id="rainy" class="selected theme"><!--🌧 -->Yağmur</div>
+  <div id="peace" class="theme"><!--🧘 -->Odaklanma</div>
+  <div id="cafe" class="theme"><!--☕ -->Kafe</div>
+</div>
+<audio loop autoplay="false" src="https://joeweaver.me/codepenassets/freecodecamp/challenges/build-a-pomodoro-clock/rain.mp3">
+<!-- partial -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script><script src="./script.js"></script>
+
+
+</audio><script type="text/javascript" id="dcoder_script">$(() => {
+
+  let $audio = $("audio"), // from https://tide.moreless.io/en/
+      $theme = $(".theme"),
+      $title = $("#title"),
+      $controls = $("#controls"),
+      $options = $("#options"),
+      $minutes = $("#minutes"),
+      $seconds = $("#seconds"),
+      $start = $("#start"),
+      $pause = $("#pause"),
+      $reset = $("#reset"),
+      $incrSession = $("#incrSession"),
+      $sessionInput = $("#sessionInput"),
+      $decrSession = $("#decrSession"),
+      $incrBreak = $("#incrBreak"),
+      $breakInput = $("#breakInput"),
+      $decrBreak = $("#decrBreak"),
+      breakLength = 5 * 60,
+      breakMax = 10,
+      breakMin = 1,
+      sessionLength = 30 * 60,
+      sessionMax = 60,
+      sessionMin = 5,
+      sessionNum = 0,
+      countdown,
+      countType,
+      remainingTime = sessionLength;
+
+  init();
+
+  function init(){
+    $audio.prop("volume", 0);
+    $incrSession.click(() => incrSession());
+    $decrSession.click(() => decrSession());
+    $incrBreak.click(() => incrBreak());
+    $decrBreak.click(() => decrBreak());
+    $sessionInput.on("change", e => updateSession(e.target.value));
+    $breakInput.on("change", e => updateBreak(e.target.value));
+    $start.click(() => { if (countType === "break"){ startBreak(); } else { startSession(); } });
+    $pause.click(() => pause());
+    $reset.click(() => reset());
+    $theme.click(e => audioSelect(e));
+  }
+  function startSession(){
+    sessionNum++;
+    countType = "session";
+    $options.slideUp(143);
+    $controls.removeClass().addClass("started");
+    $title.fadeOut(43, function(){
+      $(this).html("Zaman " + sessionNum).fadeIn();
+    });
+    $audio.animate({volume: 1}, 1000);
+    start(remainingTime || sessionLength);
+  }
+  function startBreak(){
+    countType = "break";
+    $title.fadeOut(43, function(){
+      $(this).html("Break " + sessionNum).fadeIn();
+    });
+    $audio.animate({volume: 0}, 5000);
+    start(remainingTime || breakLength);
+  }
+  function start(timeLeft){
+    clearInterval(countdown);
+    countdown = setInterval(() => {
+      timeLeft--;
+      remainingTime = timeLeft;
+      let minLeft = Math.floor(timeLeft / 60),
+          secLeft = timeLeft - minLeft * 60;
+      updateMinutes(minLeft);
+      updateSeconds(secLeft < 10 ? "0" + secLeft : secLeft);
+      if (timeLeft < 1){
+        if (countType === "session"){
+          startBreak(breakLength);
+        } else {
+          startSession();
+        }
+      }
+    }, 1000);
+  }
+  function pause(){
+    sessionNum--;
+    $audio.animate({volume: 0}, 1000);
+    clearInterval(countdown);
+    $options.slideDown(143);
+    $controls.removeClass().addClass("paused");
+    $title.fadeOut(43, function(){
+      $(this).html("Beklemede").fadeIn();
+    });
+  }
+  function reset(){
+    clearInterval(countdown);
+    updateMinutes(sessionLength / 60);
+    updateSeconds("00");
+    countType = undefined;
+    $controls.removeClass().addClass("reset");
+    $title.html("Eminmisin?");
+    remainingTime = sessionLength;
+  }
+  function incrSession(){
+    let num = Number($sessionInput.val());
+    num = num + (num === sessionMax ? 0 : 1);
+    sessionLength = num * 60;
+    updateSession(num);
+    updateMinutes(num);
+    updateSeconds("00");
+    reset();
+  }
+  function decrSession(){
+    let num = Number($sessionInput.val());
+    num = num - (num === sessionMin ? 0 : 1);
+    sessionLength = num * 60;
+    updateSession(num);
+    updateMinutes(num);
+    updateSeconds("00");
+    reset();
+  }
+  function incrBreak(){
+    let num = Number($breakInput.val());
+    num = num + (num === breakMax ? 0 : 1);
+    breakLength = num * 60;
+    updateBreak(num);
+    reset();
+  }
+  function decrBreak(){
+    let num = Number($breakInput.val());
+    num = num - (num === breakMin ? 0 : 1);
+    breakLength = num * 60;
+    updateBreak(num);
+    reset();
+  }
+  function updateMinutes(num){
+    $minutes.text(num);
+  }
+  function updateSeconds(num){
+    $seconds.text(num);
+  }
+  function updateSession(num){
+    num = num < sessionMin ? sessionMin : num > sessionMax ? sessionMax : num;
+    $sessionInput.val(num).blur();
+    updateMinutes(num);
+    updateSeconds("00");
+    sessionLength = num * 60;
+    reset();
+  }
+  function updateBreak(num){
+    $breakInput.val(num < breakMin ? breakMin : num > breakMax ? breakMax : num).blur();
+    breakLength = num * 60;
+    reset();
+  }
+  function audioSelect(e){
+    $theme.removeClass("selected");
+    $(e.target).addClass("selected");
+    switch(e.target.id){
+      case "forest": $audio.attr("src", "https://joeweaver.me/codepenassets/freecodecamp/challenges/build-a-pomodoro-clock/forest.mp3"); break;
+      case "ocean": $audio.attr("src", "https://joeweaver.me/codepenassets/freecodecamp/challenges/build-a-pomodoro-clock/ocean.mp3"); break;
+      case "rainy": $audio.attr("src", "https://joeweaver.me/codepenassets/freecodecamp/challenges/build-a-pomodoro-clock/rain.mp3"); break;
+      case "peace": $audio.attr("src", "https://joeweaver.me/codepenassets/freecodecamp/challenges/build-a-pomodoro-clock/peace.mp3"); break;
+      case "cafe": $audio.attr("src", "https://joeweaver.me/codepenassets/freecodecamp/challenges/build-a-pomodoro-clock/cafe.mp3"); break;
+    }
+  }
+
+});</script></body></html>
